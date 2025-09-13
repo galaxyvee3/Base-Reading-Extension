@@ -1,0 +1,88 @@
+@font-face {
+  font-family: 'PixelFont';
+  src: url('assets/Font.ttf') format('truetype');
+}
+body {
+  font-family: 'PixelFont', monospace;
+  margin: auto;
+  width: 300px;
+  height: 300px;
+  margin: 0;
+  padding: 10px;
+  font-size: 24px;
+  text-align: center;
+}
+body .container {
+  display: flex;
+  flex-direction: row;      /* space elements horizontally */
+  justify-content: center;  /* vertical centering */
+  align-items: center;      /* horizontal centering */
+  height: 20%;
+  gap: 20px;                /* spacing between elements */
+}
+h1 {
+  font-weight: normal;
+  font-size: 32px;
+  margin: 0;
+}
+p {
+  text-align: left;
+  font-size: 22px;
+  margin: 0;
+}
+button {
+  font-family: 'PixelFont', monospace;
+  font-size: 20px;
+  width: 100px;
+  height: 40px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+button:hover {
+  transform: scale(1.1);
+}
+#timer {
+  font-size: 32px;
+  padding-bottom: 1rem;
+}
+#mute {
+  font-size: 16px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 30px;
+  height: 24px;
+}
+#back {
+  font-size: 16px;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 50px;
+  height: 24px;
+}
+#stats {
+  font-size: 16px;
+  position: absolute;
+  left: 10px;
+  bottom: 40px;
+  width: 50px;
+  height: 24px;
+}
+#reset {
+  font-size: 16px;
+  position: absolute;
+  right: 10px;
+  bottom: 40px;
+  width: 50px;
+  height: 24px;
+}
+#erase {
+  font-size: 16px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 50px;
+  height: 24px;
+}

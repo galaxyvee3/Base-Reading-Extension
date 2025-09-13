@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Baseball-Reading",
+  "version": "1.0",
+  "description": "Baseball themed reading timer",
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "assets/Icon.png"
+  },
+  "permissions": ["storage", "tabs"]
+}
