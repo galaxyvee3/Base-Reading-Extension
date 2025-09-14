@@ -3,11 +3,7 @@
 	const muteBtn = document.getElementById("mute");
 	function updateMuteBtn() {
     muteBtn.textContent = "♪";
-    if (isMuted) {
-      muteBtn.style.textDecoration = "line-through"; // strikethrough effect
-    } else {
-      muteBtn.style.textDecoration = "none";
-    }
+		muteBtn.style.textDecoration = isMuted ? "line-through" : "none";
 	}
 	function toggleMute() {
     isMuted = !isMuted;
@@ -52,14 +48,14 @@
   });
   // update stats display
   function updateStats() {
-    const weekRange = localStorage.getItem("currentWeek") || getCurrentWeek();
+    const weekRange = localStorage.getItem("currentWeek") || "N/A";
     const score = parseInt(localStorage.getItem("score")) || 0;
     const baseCount = parseInt(localStorage.getItem("baseCount")) || 0;
     const minutesRead = parseInt(localStorage.getItem("minutes")) || 0;
     const mostRuns = parseInt(localStorage.getItem("mostRuns")) || 0;
     const mostBases = parseInt(localStorage.getItem("mostBases")) || 0;
     const mostMinutes = parseInt(localStorage.getItem("mostMinutes")) || 0;
-    const bestWeek = localStorage.getItem("bestWeek") || "";
+    const bestWeek = localStorage.getItem("bestWeek") || "N/A";
     document.getElementById("currentWeekDisplay").textContent = "Week: " + weekRange;
     document.getElementById("minutesDisplay").textContent = "Minutes: " + minutesRead;
     document.getElementById("baseDisplay").textContent = "Bases: " + baseCount;
@@ -69,9 +65,8 @@
     document.getElementById("mostRunsDisplay").textContent = "Runs: " + mostRuns;
     document.getElementById("bestWeekDisplay").textContent = "Best: " + bestWeek;
   }
-  // reset stats
   function resetStats() {
-    const weekRange = localStorage.getItem("currentWeek") || getCurrentWeek();
+    const weekRange = localStorage.getItem("currentWeek") || "N/A";
     const minutesRead = parseInt(localStorage.getItem("minutes")) || 0;
     const mostMinutes = parseInt(localStorage.getItem("mostMinutes")) || 0;
     const score = parseInt(localStorage.getItem("score")) || 0;
@@ -87,24 +82,12 @@
     localStorage.setItem("minutes", 0);
     updateStats();
   }
-  // erase lifetime stats
   function eraseStats() {
     localStorage.setItem("mostRuns", 0);
     localStorage.setItem("mostBases", 0);
     localStorage.setItem("mostMinutes", 0);
     localStorage.setItem("bestWeek", null);
     updateStats();
-  }
-  // helper: get current week range
-  function getCurrentWeek() {
-    const today = new Date();
-    const day = today.getDay();
-    const sunday = new Date(today);
-    sunday.setDate(today.getDate() - day);
-    const saturday = new Date(sunday);
-    saturday.setDate(sunday.getDate() + 6);
-    const options = { year: "numeric", month: "short", day: "numeric" };
-    return `${sunday.toLocaleDateString(undefined, options)} – ${saturday.toLocaleDateString(undefined, options)}`;
   }
   updateStats();
 })();

@@ -3,11 +3,7 @@
 	const muteBtn = document.getElementById("mute");
 	function updateMuteBtn() {
 		muteBtn.textContent = "♪";
-		if (isMuted) {
-			muteBtn.style.textDecoration = "line-through"; // strikethrough effect
-		} else {
-			muteBtn.style.textDecoration = "none";
-		}
+		muteBtn.style.textDecoration = isMuted ? "line-through" : "none";
 	}
 	function toggleMute() {
 		isMuted = !isMuted;

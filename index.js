@@ -3,11 +3,7 @@
 	const muteBtn = document.getElementById("mute");
 	function updateMuteBtn() {
 		muteBtn.textContent = "♪";
-		if (isMuted) {
-			muteBtn.style.textDecoration = "line-through"; // strikethrough effect
-		} else {
-			muteBtn.style.textDecoration = "none";
-		}
+		muteBtn.style.textDecoration = isMuted ? "line-through" : "none";
 	}
 	function toggleMute() {
 		isMuted = !isMuted;
@@ -21,7 +17,7 @@
 	const sound = new Audio("assets/Start.mp3");
 	sound.currentTime = 0;
 	if (!isMuted) sound.play();
-	function resetStats() {
+  function resetStats() {
     const weekRange = localStorage.getItem("currentWeek") || getCurrentWeek();
     const minutesRead = parseInt(localStorage.getItem("minutes")) || 0;
     const mostMinutes = parseInt(localStorage.getItem("mostMinutes")) || 0;
@@ -36,45 +32,48 @@
     localStorage.setItem("score", 0);
     localStorage.setItem("baseCount", 0);
     localStorage.setItem("minutes", 0);
-    updateStats();
   }
-	function getToday() {
-		let today = new Date();
-		let options = { year: 'numeric', month: 'short', day: 'numeric' };
-		return today.toLocaleDateString(undefined, options);
-	}
-	function getDaysLeft() {
-		let today = new Date();
-		let day = today.getDay(); // 0 = Sunday, 6 = Saturday
-		let daysLeft = 6 - day;   // how many days until Saturday
-		if (daysLeft === 0) {
-			resetStats();
-			document.getElementById("daysLeftDisplay").textContent = "6 Days Left";
-		} else if (daysLeft === 1) {
-			document.getElementById("daysLeftDisplay").textContent = "Last Day";
-		} else {
-			document.getElementById("daysLeftDisplay").textContent = getDaysLeft() + " Days Left";
-		}	
-	}
-	function getCurrentWeek() {
-		let today = new Date();
-		let day = today.getDay();
-		if (day === 0) resetStats(); // automatically reset on Sunday
-		// find Sunday (start of week)
-		let sunday = new Date(today);
-		sunday.setDate(today.getDate() - today.getDay());
-		// find Saturday (end of week)
-		let saturday = new Date(sunday);
-		saturday.setDate(sunday.getDate() + 6);
-		// formatter for shortened date strings
-		let options = { year: "numeric", month: "short", day: "numeric" };
-		let start = sunday.toLocaleDateString(undefined, options);
-		let end = saturday.toLocaleDateString(undefined, options);
-		return `${start} – ${end}`;
-	}
-	localStorage.setItem("currentWeek", getCurrentWeek());
-	document.getElementById("todayDisplay").textContent = getToday();
-	getDaysLeft();
+  function getToday() {
+    let today = new Date();
+    let options = { year: "numeric", month: "short", day: "numeric" };
+    return today.toLocaleDateString(undefined, options);
+  }
+  function getDaysLeft() {
+    let today = new Date();
+    let day = today.getDay(); // 0 = Sunday, 6 = Saturday
+    let daysLeft = 6 - day;
+    if (daysLeft === 0) {
+      document.getElementById("daysLeftDisplay").textContent = "6 Days Left";
+    } else if (daysLeft === 1) {
+      document.getElementById("daysLeftDisplay").textContent = "Last Day";
+    } else {
+      document.getElementById("daysLeftDisplay").textContent = daysLeft + " Days Left";
+    }
+  }
+  function getCurrentWeek() {
+    let today = new Date();
+    // only reset once per day
+    let todayKey = today.toDateString();
+    let lastReset = localStorage.getItem("lastReset");
+    if (today.getDay() === 0 && lastReset !== todayKey) {
+      resetStats();
+      localStorage.setItem("lastReset", todayKey); // mark reset as done
+    }
+    // find Sunday (start of week)
+    let sunday = new Date(today);
+    sunday.setDate(today.getDate() - today.getDay());
+    // find Saturday (end of week)
+    let saturday = new Date(sunday);
+    saturday.setDate(sunday.getDate() + 6);
+    let options = { year: "numeric", month: "short", day: "numeric" };
+    let start = sunday.toLocaleDateString(undefined, options);
+    let end = saturday.toLocaleDateString(undefined, options);
+    return `${start} – ${end}`;
+  }
+  // --- run once on page load ---
+  localStorage.setItem("currentWeek", getCurrentWeek());
+  document.getElementById("todayDisplay").textContent = getToday();
+  getDaysLeft();
 	// animate image
 	const img = document.getElementById('animated');
 	const images = [ "assets/Bat1.png", "assets/Bat2.png"	]; // images to switch
